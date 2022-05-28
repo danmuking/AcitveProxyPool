@@ -5,10 +5,9 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
 
-from spider.db_util import proxy_db
-from spider.items import ProxyItem
+from db_util import proxy_db
+from ..spider.items import ProxyItem
 
 
 class SpiderPipeline:

@@ -1,6 +1,6 @@
 import scrapy
 
-from spider.items import XiaoHuanBuilder, Director
+from ...spider.items import XiaoHuanBuilder, Director
 
 
 class XiaohuanSpider(scrapy.Spider):

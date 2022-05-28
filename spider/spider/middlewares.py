@@ -9,7 +9,7 @@ from scrapy import signals
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
-from spider.settings import USER_AGENT_LIST
+from ..spider.settings import USER_AGENT_LIST
 
 
 class SpiderSpiderMiddleware:
