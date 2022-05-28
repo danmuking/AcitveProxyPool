@@ -1,4 +1,5 @@
 import pymysql
+import redis
 
 
 class DBConfig:
@@ -30,7 +31,7 @@ class DBUtil:
         for each_item in kwargs.keys():
             keys = keys + each_item + ','
             if isinstance(kwargs[each_item], str):
-                values = values + "'" +kwargs[each_item]+"'" + ','
+                values = values + "'" + kwargs[each_item] + "'" + ','
             else:
                 values = values + str(kwargs[each_item]) + ','
         keys = keys[:-1]
@@ -38,6 +39,32 @@ class DBUtil:
         sql = '''
             insert into {} ({}) values ({}) 
         '''.format(table_name, keys, values)
+        self.cursor.execute(sql)
+        self.conn.commit()
+
+    def query(self, table_name: str, condition: str = '', *args):
+        item = ''
+        for each in args:
+            item = item + each + ','
+        item = item[:-1]
+        sql = '''
+            select {} from {} {}
+        '''.format(item, table_name, condition)
+        row = self.cursor.execute(sql)
+        return self.cursor.fetchall()
+
+    def update(self, table_name: str, condition: str = "", **kwargs):
+        pair = ''
+        for each_item in kwargs.keys():
+            pair = pair + each_item
+            if isinstance(kwargs[each_item], str):
+                pair = pair + '=' + "'" + kwargs[each_item] + "'" + ','
+            else:
+                pair = pair + '=' + str(kwargs[each_item]) + ','
+        pair = pair[:-1]
+        sql = '''
+            update {} set {} {}
+        '''.format(table_name, pair, condition)
         self.cursor.execute(sql)
         self.conn.commit()
 
@@ -68,11 +95,16 @@ class ProxyDB(DBUtil):
 
 
 proxy_db = ProxyDB()
+redis_pool = redis.ConnectionPool(host='127.0.0.1', port=6379, db=0)
+redis_conn = redis.Redis(connection_pool=redis_pool)
 
 if __name__ == '__main__':
     test = ProxyDB()
-    test.insert(
-        table_name='proxy',
-        proxy='1.1.1.1',
-        port = 123,
-    )
+    # test.insert(
+    #     table_name='proxy',
+    #     proxy='1.1.1.1',
+    #     port=123,
+    # )
+    result = test.query('proxy', 'where is_rom=0 ', 'proxy', 'port')
+    print(result)
+    test.update('proxy','where proxy="47.254.28.2 "',is_rom=0)
