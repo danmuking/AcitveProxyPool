@@ -58,6 +58,8 @@ class ProxyDB(DBUtil):
             `verification_time` DATETIME,
             `verification_nums` INT DEFAULT 0,
             `available_nums` INT DEFAULT 0,
+            `is_rom` INT DEFAULT 0,
+            `count` INT DEFAULT 10,
            PRIMARY KEY ( `proxy_id` )
         )ENGINE=InnoDB DEFAULT CHARSET=utf8;
         """
