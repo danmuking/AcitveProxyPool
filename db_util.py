@@ -39,6 +39,7 @@ class DBUtil:
         sql = '''
             insert into {} ({}) values ({}) 
         '''.format(table_name, keys, values)
+        # print(sql)
         self.cursor.execute(sql)
         self.conn.commit()
 
@@ -57,9 +58,11 @@ class DBUtil:
         pair = ''
         for each_item in kwargs.keys():
             pair = pair + each_item
-            if isinstance(kwargs[each_item], str):
+            if isinstance(kwargs[each_item], str) and kwargs[each_item][0] != ',':
                 pair = pair + '=' + "'" + kwargs[each_item] + "'" + ','
             else:
+                if(isinstance(kwargs[each_item], str)):
+                    kwargs[each_item] = kwargs[each_item][1:]
                 pair = pair + '=' + str(kwargs[each_item]) + ','
         pair = pair[:-1]
         sql = '''

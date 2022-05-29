@@ -22,11 +22,12 @@ class ProxyPipeline:
 
     def process_item(self, item: ProxyItem, spider):
         table_name = 'proxy'
-        proxy_db.insert(
-            table_name=table_name,
-            proxy=item.get('ip'),
-            port=item.get('port'),
-            country=item.get('country'),
-            types=item.get('types')
-        )
+        if item.get('ip') is not None and item.get('port') is not None:
+            proxy_db.insert(
+                table_name=table_name,
+                proxy=item.get('ip'),
+                port=item.get('port'),
+                country=item.get('country'),
+                types=item.get('types')
+            )
         return item
