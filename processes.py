@@ -4,8 +4,8 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from multiprocessing import Process
 
-from spider.spider.spiders.xiaohuan import XiaohuanSpider
-from verification import VerficationEngine
+from server.spider.spider.spiders.xiaohuan import XiaohuanSpider
+from server.verification import VerficationEngine
 
 
 class SpiderProcess(Process):  # 继承Process类
@@ -14,6 +14,9 @@ class SpiderProcess(Process):  # 继承Process类
         self.name = name
 
     def run(self):
+        print("-"*30)
+        print("爬虫进程启动")
+        print("*"*30)
         process = CrawlerProcess(get_project_settings())
         process.crawl(XiaohuanSpider)
         process.start()
@@ -26,14 +29,11 @@ class VerificationProcess(Process):
 
     def run(self):
         sleep(10)
+        print("-" * 30)
+        print("代理校验进程启动")
+        print("*" * 30)
         process = VerficationEngine()
         process.verficate()
 
 
-if __name__ == '__main__':
-    process_list = []
-    spider_process = SpiderProcess("spider")
-    spider_process.start()
-    verification_process = VerificationProcess('verification')
-    verification_process.run()
 

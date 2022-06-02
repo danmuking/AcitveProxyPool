@@ -4,8 +4,8 @@ from time import sleep
 import requests
 from datetime import datetime
 
-from db_util import proxy_db, redis_conn
-from spider.spider.settings import USER_AGENT_LIST
+from server.db_util import proxy_db, redis_conn
+from server.spider.spider.settings import USER_AGENT_LIST
 
 
 class Request():
