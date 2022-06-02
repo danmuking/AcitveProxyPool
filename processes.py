@@ -4,8 +4,8 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from multiprocessing import Process
 
-from server.spider.spider.spiders.xiaohuan import XiaohuanSpider
-from server.verification import VerficationEngine
+from spider.spider.spiders.xiaohuan import XiaohuanSpider
+from verification import VerficationEngine
 
 
 class SpiderProcess(Process):  # 继承Process类
